@@ -11,7 +11,7 @@ namespace Collisions
             timer += Time.deltaTime;
             if (timer >= 1f)
             {
-                    moving = false;
+                    moving = true;
                     rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                     rb.rotation = 0;
                     timer = 0;

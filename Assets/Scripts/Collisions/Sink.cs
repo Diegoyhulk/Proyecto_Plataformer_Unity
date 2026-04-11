@@ -1,4 +1,5 @@
-﻿using Intefaces;
+﻿using System;
+using Intefaces;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,20 +10,37 @@ namespace Collisions
         float timer;
         private ParticleSystem ps;
         private bool isInside;
-
+        [SerializeField] private InputReaderSO inputreader;
         void Awake()
         {
             ps = GetComponentInChildren<ParticleSystem>();
         }
 
-        void Update()
+        private void OnEnable()
+        {
+            inputreader.OnJumpStarted += Play;
+            inputreader.OnJumpCanceled += Stop;
+        }
+
+        private void OnDisable()
+        {
+            inputreader.OnJumpStarted -= Play;
+            inputreader.OnJumpCanceled -= Stop;
+        }
+
+        private void Play()
         {
             if (isInside)
             {
-                if (Input.GetKeyDown(KeyCode.W))
-                    ps.Play();
-                if (Input.GetKeyUp(KeyCode.W))
-                    ps.Stop();
+                ps.Play(); 
+            }
+        }
+
+        private void Stop()
+        {
+            if (isInside)
+            {
+                ps.Stop();
             }
         }
         public void OnEnter()
@@ -40,7 +58,7 @@ namespace Collisions
             timer += Time.deltaTime;
             if (timer >= 1f)
             {
-                moving = false;
+                moving = true;
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 rb.rotation = 0;
                 timer = 0;

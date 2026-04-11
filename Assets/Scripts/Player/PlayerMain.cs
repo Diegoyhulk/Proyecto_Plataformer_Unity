@@ -13,18 +13,32 @@ public class PlayerMain : MonoBehaviour
     public float jumpangle = 0;
     private float maxjumpangle = 50f;
     private float hinput;
-    private bool moving = false;
-
+    private bool Stop = false;
+    private Action OnApressed;
+    [SerializeField] private InputReaderSO inputreader;
+    
+    
     [Header("RB")]
     public Rigidbody2D rb;
     private RigidbodyConstraints2D constraints;
-    private bool start = false;
     float timer = 0;
     
     [Header("Particle")]
     private ParticleSystem ps;
-	private float spinamount => jumpangle / maxjumpangle;
-    
+    private bool startpin;
+    private bool startparticles = true;
+    private float spinamount => jumpangle / maxjumpangle;
+
+
+    private void OnEnable()
+    {
+        inputreader.Moving += UpdateMovment;
+    }
+
+    private void OnDisable()
+    {
+        inputreader.Moving -= UpdateMovment;
+    }
     
     public virtual void Awake()
     {
@@ -36,21 +50,27 @@ public class PlayerMain : MonoBehaviour
 
     private void Update()
     {
-        hinput = Input.GetAxisRaw("Horizontal");
-        if (!moving)
+        if (Stop)
         {
-            Create_Spin();
+            Create_Spin();  
         }
+    }
+
+    private void UpdateMovment(Vector2 ctx)
+    {
+        hinput = ctx.x;
     }
 
     private void Create_Spin()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            ps.Play();
-        }
         if (Input.GetKey(KeyCode.W))
         {
+            if (startparticles)
+            {
+                ps.Play(); 
+            }
+            startparticles = false;
+            startpin = true;
             if (jumpangle <= maxjumpangle)
             {
                 jumpangle += (Time.deltaTime * 20);
@@ -58,17 +78,19 @@ public class PlayerMain : MonoBehaviour
                 float lifetime = Mathf.Lerp(1, 2, t);
                 var main = ps.main;
                 main.startLifetime = lifetime;
+                Rotate(); 
             }
-            Rotate();
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
             ps.Stop();
             rb.AddForce(new Vector2((spinamount) * hinput, 1f) * 20, ForceMode2D.Impulse);
-            rb.AddTorque(-100f * hinput * (spinamount) , ForceMode2D.Force);
+            rb.AddTorque(-100f * hinput * (spinamount), ForceMode2D.Force);
             jumpangle = 0;
             rb.constraints = RigidbodyConstraints2D.None;
-            moving = true;
+            Stop = false;
+            startpin = false;
+            startparticles = true;
         }
     }
     private void Rotate()
@@ -85,13 +107,9 @@ public class PlayerMain : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!moving)
+        if (Stop && !startpin)
         {
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W)||
-                Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.W))
-            {
-                Move();
-            }
+            Move();
         }
     }
 
@@ -106,28 +124,27 @@ public class PlayerMain : MonoBehaviour
         {
             sinkable.OnEnter();
         }
-
         if (other.gameObject.TryGetComponent(out ISlippery slippery))
         {
-            slippery.Slide(ref moving, ref rb);
+            slippery.Slide(ref Stop, ref rb);
         }
     }
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (moving)
+        if (!Stop)
         {
             if (other.gameObject.TryGetComponent(out IRecuperable rec))
             {
-                rec.Recuperar(ref moving, ref rb);
+                rec.Recuperar(ref Stop, ref rb);
             }
         }
-
         if (other.gameObject.TryGetComponent(out ISinkable sinkable))
         {
-            sinkable.Recuperar(ref moving, ref rb);
-            if(Input.GetKey(KeyCode.W))
+            sinkable.Recuperar(ref Stop, ref rb);
+            if (Input.GetKey(KeyCode.W))
                 sinkable.PartMove(rb);
         }
+        
     }
 
     private void OnTriggerExit2D(Collider2D other)
