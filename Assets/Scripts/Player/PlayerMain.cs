@@ -13,7 +13,7 @@ public class PlayerMain : MonoBehaviour
     public float jumpangle = 0;
     private float maxjumpangle = 50f;
     private float hinput;
-    private bool Stop = false;
+    private bool Stop = true;
     private Action OnApressed;
     [SerializeField] private InputReaderSO inputreader;
     
@@ -128,6 +128,14 @@ public class PlayerMain : MonoBehaviour
         {
             slippery.Slide(ref Stop, ref rb);
         }
+        if (other.gameObject.TryGetComponent(out IEnterExit enter))
+        {
+            enter.Onenter();
+        }
+        if (other.gameObject.TryGetComponent(out IAttackable attackable))
+        {
+            attackable.Attack();
+        }
     }
     private void OnTriggerStay2D(Collider2D other)
     {
@@ -144,7 +152,10 @@ public class PlayerMain : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
                 sinkable.PartMove(rb);
         }
-        
+        if (other.gameObject.TryGetComponent(out IAttackable attackable))
+        {
+            attackable.AddForce(ref Stop, ref rb);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -153,5 +164,15 @@ public class PlayerMain : MonoBehaviour
         {
             sinkable.OnExit();
         }
+
+        if (other.gameObject.TryGetComponent(out IEnterExit Exit))
+        {
+            Exit.Onexit();
+        }
+        if(other.gameObject.TryGetComponent(out IAttackable attackable))
+        {
+            attackable.IsOust();
+        }
+        
     }
 }
