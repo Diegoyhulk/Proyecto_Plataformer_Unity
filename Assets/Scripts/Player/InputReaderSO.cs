@@ -3,20 +3,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "InputReaderSO", menuName = "Scriptable Objects/InputReaderSO")]
-public class InputReaderSO : ScriptableObject, InputPlayer.IMovementActions
+public class InputReaderSO : ScriptableObject, InputPlayer.IMovementActions, InputPlayer.IWModeActions
 {
     private InputPlayer inputPlayer;
-    public event Action OnJumpStarted, OnJumpCanceled;
-    public event Action<Vector2> Moving;
+    public event Action OnJumpStarted, OnJumpCanceled, OnWMoving, OffWMoving;
+    public event Action<Vector2> Moving, WMoving;
+
     
     private void OnEnable()
     {
         inputPlayer = new InputPlayer();
         inputPlayer.Movement.Enable();
-        inputPlayer.UI.Disable();
+        inputPlayer.WMode.Enable();
         inputPlayer.Movement.AddCallbacks(this);
+        inputPlayer.WMode.AddCallbacks(this);
     }
 
+    private void OnDisable()
+    {
+        inputPlayer.Movement.Disable();
+        inputPlayer.WMode.Disable();
+    }
     public void OnMove(InputAction.CallbackContext context)
     {
         Moving?.Invoke(context.ReadValue<Vector2>());
@@ -32,5 +39,13 @@ public class InputReaderSO : ScriptableObject, InputPlayer.IMovementActions
         {
             OnJumpCanceled?.Invoke();
         }
+    }
+
+    public void OnSwim(InputAction.CallbackContext context)
+    {
+        WMoving?.Invoke(context.ReadValue<Vector2>());
+        if (context.started){OnWMoving?.Invoke();}
+        if (context.canceled){OffWMoving?.Invoke();}
+        
     }
 }

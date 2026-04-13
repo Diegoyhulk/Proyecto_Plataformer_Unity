@@ -6,7 +6,7 @@ namespace Intefaces
     {
         public void OnEnter();
         public void OnExit();
-        public void Recuperar(ref bool moving, ref Rigidbody2D rb);
+        public void Recuperar(ref bool moving, ref Rigidbody2D rb, ref Animator anim);
         public void PartMove(Rigidbody2D rb);
     }
 }

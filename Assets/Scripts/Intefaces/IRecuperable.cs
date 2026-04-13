@@ -4,6 +4,6 @@ namespace Intefaces
 {
     public interface IRecuperable
     {
-        public void Recuperar(ref bool moving, ref Rigidbody2D rb);
+        public void Recuperar(ref bool moving, ref Rigidbody2D rb, ref Animator animator);
     }
 }

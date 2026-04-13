@@ -6,12 +6,13 @@ namespace Collisions
     public class Floor : MonoBehaviour, IRecuperable
     {
         private float timer = 0f;
-        public void Recuperar(ref  bool moving, ref Rigidbody2D rb)
+        public void Recuperar(ref  bool moving, ref Rigidbody2D rb, ref Animator anim)
         {
             timer += Time.deltaTime;
             if (timer >= 1f)
             {
                     moving = true;
+                    anim.SetBool("Spinning", false);
                     rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                     rb.rotation = 0;
                     timer = 0;

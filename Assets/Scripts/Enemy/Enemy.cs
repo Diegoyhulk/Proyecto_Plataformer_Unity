@@ -66,7 +66,6 @@ namespace Enemy
                 yield return new WaitForSeconds(Random.Range(0.5f, 1.75f));
                 currentIndex = (currentIndex + 1) % patrollpoints.Count;
             }
-        
         }
         private void FaceToDestination()
         {

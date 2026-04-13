@@ -73,30 +73,74 @@
             ]
         },
         {
-            "name": "UI",
+            "name": "WMode",
             "id": "43c5bb3d-69a2-42ee-8f27-135398a393b1",
             "actions": [
                 {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "d5aef7eb-4beb-4ba7-8ec1-bf5d1ec5235b",
-                    "expectedControlType": "",
+                    "name": "Swim",
+                    "type": "Value",
+                    "id": "6d6bcfb8-84f0-4eb3-9084-faf2c039e005",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "34b36fb2-1580-4ee5-9a45-a78fdeea5e0f",
-                    "path": "",
+                    "name": "2D Vector",
+                    "id": "415c6f41-3ef8-400b-b910-7d95d175f24c",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
+                    "action": "Swim",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "1ebf8d53-cbe4-4602-baed-88983be88aa4",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "9d2847a6-fc33-45cc-9a42-7dd7446fc1f8",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b81cf733-014b-4fc9-818b-0d8aa60ef847",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "5e174e1e-b0b4-45d7-9517-d30085cf7db1",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
