@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Intefaces;
-using Managers;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
-using Debug = UnityEngine.Debug;
 
-public class PlayerMain : PlayerMain1
+public class PlayerMain : PlayerSystem
 {
     [Header("Player Movment")]
     [field: SerializeField] public float movmentforce;
@@ -17,69 +8,58 @@ public class PlayerMain : PlayerMain1
     private float maxjumpangle = 50f;
     private float hinput;
     private static Vector2 Swiming;
-    private bool Stop = true;
-    private Action OnApressed;
-    [SerializeField] public InputReaderSO inputreader;
-    public bool WMode { get; set; }
-    private Animator anim;
-
-    
-    [Header("RB")]
-    
-    private RigidbodyConstraints2D constraints;
-    float timer = 0;
-    
+    private float direction;
+    [SerializeField] private float speedrotation;
     [Header("Particle")]
+    private SpriteRenderer ball;
     [SerializeField] private ParticleSystem ps;
     private bool startpin;
     private bool startparticles = true;
     private float spinamount => jumpangle / maxjumpangle;
-    [SerializeField] private ParticleSystem[] bb;
-
-
     private void OnEnable()
     {
-        inputreader.Moving += UpdateMovment;
-        inputreader.WMoving += Swim;
-        inputreader.OnWMoving += SwimPlay;
-        inputreader.OffWMoving += SwimStop;
+        main.inputreader.Moving += UpdateMovment;
+        main.inputreader.WMoving += Swim;
+        main.inputreader.OnWMoving += SwimPlay;
+        main.inputreader.OffWMoving += SwimStop;
     }
 
     private void OnDisable()
     {
-        inputreader.Moving -= UpdateMovment;
-        inputreader.WMoving -= Swim;
-        inputreader.OnWMoving -= SwimPlay;
-        inputreader.OffWMoving -= SwimStop;
+        main.inputreader.Moving -= UpdateMovment;
+        main.inputreader.WMoving -= Swim;
+        main.inputreader.OnWMoving -= SwimPlay;
+        main.inputreader.OffWMoving -= SwimStop;
     }
-    
-    public virtual void Awake()
+
+    protected override void Awake()
     {
-        anim = GetComponent<Animator>();
+        base.Awake();
+        ball = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        if (Stop && !WMode)
+        if (main.Stop && !main.WMode)
         {
             Create_Spin();  
         }
     }
     private void FixedUpdate()
     {
-        if (Stop && !startpin && !WMode) 
+        if (main.Stop && !startpin && !main.WMode) 
         {
-            Move();
+            ball.transform.eulerAngles = new Vector3(0, 0, -main.rb.linearVelocity.x * speedrotation);
+            main.rb.AddForce(new Vector2(hinput, 0) * movmentforce, ForceMode2D.Force);
         }
-        if (WMode)
+        if (main.WMode)
         {
-            rb.AddForce(Swiming * 50f, ForceMode2D.Force);
+            main.rb.AddForce(Swiming * 50f, ForceMode2D.Force);
         }
     }
-
     private void UpdateMovment(Vector2 ctx)
     {
-        if (!WMode)
+        if (!main.WMode)
         {
             hinput = ctx.x;
         }
@@ -87,7 +67,7 @@ public class PlayerMain : PlayerMain1
 
     private void Swim(Vector2 ctx)
     {
-        if (WMode)
+        if (main.WMode)
         {
             Swiming = ctx;
             WRotate();
@@ -96,10 +76,10 @@ public class PlayerMain : PlayerMain1
 
     private void SwimPlay()
     {
-        if (WMode)
+        if (main.WMode)
         {
-            anim.SetBool("Spinning", true);
-            foreach (var bub in bb)
+            main.anim.SetBool("Spinning", true);
+            foreach (var bub in main.bb)
             {
                 bub.Play();
             }
@@ -108,10 +88,10 @@ public class PlayerMain : PlayerMain1
 
     private void SwimStop()
     {
-        if (WMode)
+        if (main.WMode)
         {
-            anim.SetBool("Spinning", false);
-            foreach (var bub in bb)
+            main.anim.SetBool("Spinning", false);
+            foreach (var bub in main.bb)
             {
                 bub.Stop();
             }
@@ -129,8 +109,9 @@ public class PlayerMain : PlayerMain1
         {
             if (startparticles)
             {
+                ball.transform.eulerAngles = Vector3.zero;
                 ps.Play(); 
-                anim.SetBool("Spinning", true);
+                main.anim.SetBool("Spinning", true);
             }
             startparticles = false;
             startpin = true;
@@ -147,11 +128,11 @@ public class PlayerMain : PlayerMain1
         if (Input.GetKeyUp(KeyCode.W))
         {
             ps.Stop();
-            rb.AddForce(new Vector2((spinamount) * hinput, 1f) * 20, ForceMode2D.Impulse);
-            rb.AddTorque(-100f * hinput * (spinamount), ForceMode2D.Force);
+            main.rb.AddForce(new Vector2((spinamount) * hinput, 1f) * 20, ForceMode2D.Impulse);
+            main.rb.AddTorque(-100f * hinput * (spinamount), ForceMode2D.Force);
             jumpangle = 0;
-            rb.constraints = RigidbodyConstraints2D.None;
-            Stop = false;
+            main.rb.constraints = RigidbodyConstraints2D.None;
+            main.Stop = false;
             startpin = false;
             startparticles = true;
         }
@@ -165,82 +146,6 @@ public class PlayerMain : PlayerMain1
         else if (hinput < 0) //Izq
         {
             ps.transform.eulerAngles = new Vector3(0, 90, 87.615f);
-        }
-    }
-    private void Move()
-    {
-        rb.AddForce(new Vector2(hinput, 0) * movmentforce, ForceMode2D.Force);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.TryGetComponent(out ISinkable sinkable))
-        {
-            sinkable.OnEnter();
-        }
-        if (other.gameObject.TryGetComponent(out ISlippery slippery))
-        {
-            slippery.Slide(ref Stop, ref rb, ref anim);
-        }
-        if (other.gameObject.TryGetComponent(out IEnterExit enter))
-        {
-            enter.Onenter();
-        }
-        if (other.gameObject.TryGetComponent(out IAttackable attackable))
-        {
-            attackable.Attack();
-        }
-        if (other.gameObject.CompareTag("Water"))
-        {
-            rb.constraints = RigidbodyConstraints2D.None;
-            WMode = true;
-        }
-    }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (!Stop)
-        {
-            if (other.gameObject.TryGetComponent(out IRecuperable rec))
-            {
-                rec.Recuperar(ref Stop, ref rb, ref anim);
-            }
-        }
-        if (other.gameObject.TryGetComponent(out ISinkable sinkable))
-        {
-            sinkable.Recuperar(ref Stop, ref rb, ref  anim);
-            if (Input.GetKey(KeyCode.W))
-                sinkable.PartMove(rb);
-        }
-        if (other.gameObject.TryGetComponent(out IAttackable attackable))
-        {
-            attackable.AddForce(ref Stop, ref rb);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if(other.gameObject.TryGetComponent(out ISinkable sinkable))
-        {
-            sinkable.OnExit();
-        }
-
-        if (other.gameObject.TryGetComponent(out IEnterExit Exit))
-        {
-            Exit.Onexit();
-        }
-        if(other.gameObject.TryGetComponent(out IAttackable attackable))
-        {
-            attackable.IsOust();
-        }
-        if (other.gameObject.CompareTag("Water"))
-        {
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            foreach (var bub in bb)
-            {
-                bub.Stop();
-            }
-            rb.rotation = 0;
-            WMode = false;
         }
     }
 }
