@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114272034173912277}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: -0.4894859, y: -0.51029754, z: 0.4894859, w: 0.51029754}
   m_LocalPosition: {x: 0, y: -0.537, z: 0}
   m_LocalScale: {x: 0.15147, y: 0.15147, z: 0.14210159}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8373441039773351995}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 87.615}
 --- !u!198 &869580818984091230
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4862,13 +4862,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3141915694348393213}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: -0.5000015, y: 0.49999854, z: 0.5000015, w: -0.49999854}
   m_LocalPosition: {x: 0, y: -0.02999878, z: 0}
   m_LocalScale: {x: 0.15147, y: 0.15147, z: 0.14210159}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8373441039773351995}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 270}
 --- !u!198 &8391642078680432067
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4951,7 +4951,7 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 5
       maxCurve:
@@ -5059,7 +5059,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.6627451, g: 0.7960785, b: 0.9333334, a: 0.4}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5447,7 +5447,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -0.03
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5645,7 +5645,7 @@ ParticleSystem:
           m_RotationOrder: 4
     arc:
       value: 180
-      mode: 0
+      mode: 3
       spread: 0
       speed:
         serializedVersion: 2
@@ -5706,7 +5706,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 50
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -9683,9 +9683,13 @@ GameObject:
   - component: {fileID: 8373441039773351995}
   - component: {fileID: 7550811651506573927}
   - component: {fileID: 8723853450197792577}
+  - component: {fileID: 3912685881819389386}
+  - component: {fileID: 8744245494830400219}
+  - component: {fileID: 8015112101956855386}
   - component: {fileID: -3025181604453571909}
   - component: {fileID: 8024114146738986944}
   - component: {fileID: 4679493975798528846}
+  - component: {fileID: 907359095534228839}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -9760,12 +9764,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -8784327801399159122, guid: f765d9a69ca93b34cab81473aaef4013, type: 3}
+  m_Sprite: {fileID: 7860700366232076294, guid: 2bd6370d821d1fd4f98cfc2f3ccf28c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.8, y: 4.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -9782,23 +9786,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0540d94a4ee7a54984d5ae584c8886a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMain
-  movmentforce: 20
-  jumpangle: 0
-  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
-  inputaction:
-    m_Name: Inputaction
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: dc599634-8607-45c9-9ec4-eefaf50e761b
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   rb: {fileID: 0}
-  ps: {fileID: 869580818984091230}
+  Stop: 1
+  WMode: 0
+  anim: {fileID: 0}
   bb:
   - {fileID: 2588230247183082524}
   - {fileID: 8391642078680432067}
+  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
+  movmentforce: 20
+  jumpangle: 0
+  ps: {fileID: 869580818984091230}
+--- !u!114 &3912685881819389386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794255746912686780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f96b0eb3bc5df04ab6dd09423e721f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  rb: {fileID: 0}
+  Stop: 1
+  WMode: 0
+  anim: {fileID: 0}
+  bb:
+  - {fileID: 2588230247183082524}
+  - {fileID: 8391642078680432067}
+  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
+--- !u!114 &8744245494830400219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794255746912686780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2a644268d1a7894db3e34b6db35029d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMain1
+  rb: {fileID: 0}
+  Stop: 1
+  WMode: 0
+  anim: {fileID: 0}
+  bb:
+  - {fileID: 2588230247183082524}
+  - {fileID: 8391642078680432067}
+  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
+--- !u!114 &8015112101956855386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794255746912686780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7397917f7a379d4a942074b236b1eff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSystem
+  rb: {fileID: 0}
+  Stop: 1
+  WMode: 0
+  anim: {fileID: 0}
+  bb:
+  - {fileID: 2588230247183082524}
+  - {fileID: 8391642078680432067}
+  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
 --- !u!50 &-3025181604453571909
 Rigidbody2D:
   serializedVersion: 5
@@ -9898,6 +9956,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.6
+--- !u!95 &907359095534228839
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794255746912686780}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 54f6434d307ba9c4db0f41e118493091, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6682404036528255346
 GameObject:
   m_ObjectHideFlags: 0
@@ -10013,7 +10093,7 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 5
       maxCurve:
@@ -10121,7 +10201,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.74509805, g: 0.85098046, b: 1, a: 0.4}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -10509,7 +10589,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -0.03
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -10707,7 +10787,7 @@ ParticleSystem:
           m_RotationOrder: 4
     arc:
       value: 180
-      mode: 0
+      mode: 3
       spread: 0
       speed:
         serializedVersion: 2
@@ -10768,7 +10848,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 50
       minScalar: 10
       maxCurve:
         serializedVersion: 2

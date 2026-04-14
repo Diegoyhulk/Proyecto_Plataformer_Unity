@@ -1,16 +1,81 @@
+using Intefaces;
 using UnityEngine;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : PlayerSystem
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Awake()
     {
-        
+        base.Awake();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.gameObject.TryGetComponent(out ISinkable sinkable))
+        {
+            sinkable.OnEnter();
+        }
+        if (other.gameObject.TryGetComponent(out ISlippery slippery))
+        {
+            slippery.Slide(ref main.Stop, ref main.rb, ref main.anim);
+        }
+        if (other.gameObject.TryGetComponent(out IEnterExit enter))
+        {
+            enter.Onenter();
+        }
+        if (other.gameObject.TryGetComponent(out IAttackable attackable))
+        {
+            attackable.Attack();
+        }
+        if (other.gameObject.CompareTag("Water"))
+        {
+            main.rb.constraints = RigidbodyConstraints2D.None;
+            main.WMode = true;
+        }
+    }
+    
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!main.Stop)
+        {
+            if (other.gameObject.TryGetComponent(out IRecuperable rec))
+            {
+                rec.Recuperar(ref main.Stop, ref main.rb, ref main.anim);
+            }
+        }
+        if (other.gameObject.TryGetComponent(out ISinkable sinkable))
+        {
+            sinkable.Recuperar(ref main.Stop, ref main.rb, ref  main.anim);
+            if (Input.GetKey(KeyCode.W))
+                sinkable.PartMove(main.rb);
+        }
+        if (other.gameObject.TryGetComponent(out IAttackable attackable))
+        {
+            attackable.AddForce(ref main.Stop, ref main.rb);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.gameObject.TryGetComponent(out ISinkable sinkable))
+        {
+            sinkable.OnExit();
+        }
+
+        if (other.gameObject.TryGetComponent(out IEnterExit Exit))
+        {
+            Exit.Onexit();
+        }
+        if(other.gameObject.TryGetComponent(out IAttackable attackable))
+        {
+            attackable.IsOust();
+        }
+        if (other.gameObject.CompareTag("Water"))
+        {
+            main.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            foreach (var bub in main.bb)
+            {
+                bub.Stop();
+            }
+            main.rb.rotation = 0;
+            main.WMode = false;
+        }
     }
 }
