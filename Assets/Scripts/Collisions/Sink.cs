@@ -1,5 +1,6 @@
 ﻿using System;
 using Intefaces;
+using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Collisions
         private ParticleSystem ps;
         private bool isInside;
         [SerializeField] private InputReaderSO inputreader;
+        [SerializeField] float mult;
         void Awake()
         {
             ps = GetComponentInChildren<ParticleSystem>();
@@ -56,9 +58,11 @@ namespace Collisions
             isInside = false;
         }
 
-        public void Recuperar(ref bool moving, ref Rigidbody2D rb, ref Animator anim)
+        public void Recuperar(ref bool moving, ref Rigidbody2D rb, ref Animator anim, ref float currenthealth, float maxhealth)
         {
             timer += Time.deltaTime;
+            currenthealth += Time.deltaTime * mult;
+            EventManager.instance.PlayerDamage(currenthealth, maxhealth);
             if (timer >= 1f)
             {
                 moving = true;
