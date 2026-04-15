@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Intefaces;
+using Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,6 +22,7 @@ namespace Enemy
         private List<Vector3> patrollpoints = new List<Vector3>();
         private Vector3 currentDestination;
         private int currentIndex;
+        [SerializeField] private float damage;
 
         private void Awake()
         {
@@ -41,7 +43,7 @@ namespace Enemy
                 anim.SetTrigger(AttackT);
             }
         }
-        public void AddForce(ref bool stop, ref Rigidbody2D rb)
+        public void AddForce(ref bool stop, ref Rigidbody2D rb, ref float currenthealth, ref float maxhealth)
         {
             if (open && isin && doonce)
             {
@@ -50,6 +52,8 @@ namespace Enemy
                 stop = false;
                 doonce = false;
                 doonceanim = false;
+                currenthealth += damage;
+                EventManager.instance.PlayerDamage(currenthealth, maxhealth);
             }  
         }
         private IEnumerator PatrollAndWait()

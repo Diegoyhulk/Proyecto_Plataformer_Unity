@@ -4,7 +4,7 @@ namespace Intefaces
 {
     public interface ISinkable
     {
-        public void OnEnter();
+        public void OnEnter(Rigidbody2D rb);
         public void OnExit();
         public void Recuperar(ref bool moving, ref Rigidbody2D rb, ref Animator anim);
         public void PartMove(Rigidbody2D rb);

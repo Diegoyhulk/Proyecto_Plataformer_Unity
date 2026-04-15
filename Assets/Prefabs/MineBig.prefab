@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mine
   force: 20
+  damage: 40
 --- !u!95 &6138204824128732384
 Animator:
   serializedVersion: 7
