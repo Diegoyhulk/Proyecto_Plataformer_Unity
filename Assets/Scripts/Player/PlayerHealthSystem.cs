@@ -26,6 +26,7 @@ namespace Player
             {
                 if (Lives > 0)
                 {
+                    main.rb.linearVelocity= Vector2.zero;
                     main.rb.transform.position = main.Checkpointtransform;
                     main.currentdamage = 0;
                     LessHp?.Invoke(main.currentdamage, main.maxhealth);
