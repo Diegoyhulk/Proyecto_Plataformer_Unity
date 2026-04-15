@@ -43,9 +43,12 @@ namespace Collisions
                 ps.Stop();
             }
         }
-        public void OnEnter()
+        public void OnEnter(Rigidbody2D rb)
         {
             isInside = true;
+            var vector3 = ps.transform.position;
+            vector3.y = rb.position.y - 0.5f;
+            ps.transform.position = vector3;
         }
 
         public void OnExit()

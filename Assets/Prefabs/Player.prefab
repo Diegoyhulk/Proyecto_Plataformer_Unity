@@ -9686,6 +9686,7 @@ GameObject:
   - component: {fileID: 3912685881819389386}
   - component: {fileID: 8744245494830400219}
   - component: {fileID: 8015112101956855386}
+  - component: {fileID: 5355307130665408989}
   - component: {fileID: -3025181604453571909}
   - component: {fileID: 8024114146738986944}
   - component: {fileID: 4679493975798528846}
@@ -9786,16 +9787,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0540d94a4ee7a54984d5ae584c8886a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMain
-  rb: {fileID: 0}
-  Stop: 1
-  WMode: 0
-  anim: {fileID: 0}
-  bb:
-  - {fileID: 2588230247183082524}
-  - {fileID: 8391642078680432067}
-  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
   movmentforce: 20
   jumpangle: 0
+  speedrotation: 200
   ps: {fileID: 869580818984091230}
 --- !u!114 &3912685881819389386
 MonoBehaviour:
@@ -9809,14 +9803,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f96b0eb3bc5df04ab6dd09423e721f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
-  rb: {fileID: 0}
-  Stop: 1
-  WMode: 0
-  anim: {fileID: 0}
-  bb:
-  - {fileID: 2588230247183082524}
-  - {fileID: 8391642078680432067}
-  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
 --- !u!114 &8744245494830400219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9832,6 +9818,8 @@ MonoBehaviour:
   rb: {fileID: 0}
   Stop: 1
   WMode: 0
+  currentdamage: 0
+  maxhealth: 100
   anim: {fileID: 0}
   bb:
   - {fileID: 2588230247183082524}
@@ -9849,14 +9837,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7397917f7a379d4a942074b236b1eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSystem
-  rb: {fileID: 0}
-  Stop: 1
-  WMode: 0
-  anim: {fileID: 0}
-  bb:
-  - {fileID: 2588230247183082524}
-  - {fileID: 8391642078680432067}
-  inputreader: {fileID: 11400000, guid: 68bff487f1ecb08438feea88bcaac077, type: 2}
+--- !u!114 &5355307130665408989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794255746912686780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1876624a70618438aa48ce4ba9c562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerHealthSystem
 --- !u!50 &-3025181604453571909
 Rigidbody2D:
   serializedVersion: 5

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Camera_Parkour : MonoBehaviour, IEnterExit
 {
-    private Vector3 final_scale = new Vector3(4, 2.2249609f, 2.37448525f);
+    [SerializeField] private Vector3 final_scale = new Vector3(4, 2.2249609f, 2.37448525f);
     private CinemachineCamera cam;
     [SerializeField] private GameObject sunset;
     private Vector3 susetinitscal;

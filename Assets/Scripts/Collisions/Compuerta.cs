@@ -15,6 +15,7 @@ public class Compuerta : MonoBehaviour, IEnterExit
     [SerializeField] public float Downspeed = 0.5f;
     private float time;
     private bool isin;
+    [SerializeField] private Vector3 dirction;
 
     private void OnEnable()
     {
@@ -38,7 +39,7 @@ public class Compuerta : MonoBehaviour, IEnterExit
         {
             if (timer >= time)
             { 
-                door.transform.position += Vector3.up * (Time.deltaTime * Upspeed); 
+                door.transform.position += dirction * (Time.deltaTime * Upspeed); 
                 time += (Time.deltaTime * Upspeed);
                 Rueda1.transform.Rotate(new Vector3(0f,0f,1f) * (speed * Time.deltaTime));
                 Rueda2.transform.Rotate(new Vector3(0f,0f,1f) * (speed * Time.deltaTime));
@@ -48,7 +49,7 @@ public class Compuerta : MonoBehaviour, IEnterExit
         {
             if (time >= 0)
             {
-                door.transform.position -= Vector3.up * (Time.deltaTime * Downspeed); 
+                door.transform.position -= dirction * (Time.deltaTime * Downspeed); 
                 time -= (Time.deltaTime * Downspeed);
             }
         }

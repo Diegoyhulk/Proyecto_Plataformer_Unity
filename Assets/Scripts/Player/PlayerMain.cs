@@ -7,6 +7,9 @@ public class PlayerMain1 : MonoBehaviour
     public Rigidbody2D rb;
     public bool Stop = true;
     public bool WMode = false;
+    public float currentdamage;
+    public float maxhealth;
+    public Vector3 Checkpointtransform = new Vector3(0, 0, 0);
     
     [Header("Animation")]
     public Animator anim;
@@ -20,6 +23,7 @@ public class PlayerMain1 : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
         anim = GetComponent<Animator>();
+        Checkpointtransform = rb.position;
     }
     
 }

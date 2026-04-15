@@ -11,7 +11,7 @@ public class PlayerInteraction : PlayerSystem
     {
         if (other.gameObject.TryGetComponent(out ISinkable sinkable))
         {
-            sinkable.OnEnter();
+            sinkable.OnEnter(main.rb);
         }
         if (other.gameObject.TryGetComponent(out ISlippery slippery))
         {
@@ -29,6 +29,12 @@ public class PlayerInteraction : PlayerSystem
         {
             main.rb.constraints = RigidbodyConstraints2D.None;
             main.WMode = true;
+        }
+        if (other.gameObject.CompareTag("Checkpoint"))
+        {
+            Debug.Log("Checkpoint");
+            main.Checkpointtransform = main.rb.position;
+            main.rb.linearVelocity = Vector3.zero;
         }
     }
     
@@ -49,7 +55,7 @@ public class PlayerInteraction : PlayerSystem
         }
         if (other.gameObject.TryGetComponent(out IAttackable attackable))
         {
-            attackable.AddForce(ref main.Stop, ref main.rb);
+            attackable.AddForce(ref main.Stop, ref main.rb, ref main.currentdamage, ref main.maxhealth);
         }
     }
     private void OnTriggerExit2D(Collider2D other)
