@@ -50,8 +50,7 @@ public class PlayerInteraction : PlayerSystem
         if (other.gameObject.TryGetComponent(out ISinkable sinkable))
         {
             sinkable.Recuperar(ref main.Stop, ref main.rb, ref  main.anim, ref main.currentdamage, main.maxhealth);
-            if (Input.GetKey(KeyCode.W))
-                sinkable.PartMove(main.rb);
+            sinkable.PartMove(main.rb);
         }
         if (other.gameObject.TryGetComponent(out IAttackable attackable))
         {

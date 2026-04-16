@@ -10,6 +10,7 @@ public class PlayerMain : PlayerSystem
     private static Vector2 Swiming;
     private float direction;
     [SerializeField] private float speedrotation;
+    private bool startspin = false;
     [Header("Particle")]
     private SpriteRenderer ball;
     [SerializeField] private ParticleSystem ps;
@@ -22,6 +23,8 @@ public class PlayerMain : PlayerSystem
         main.inputreader.WMoving += Swim;
         main.inputreader.OnWMoving += SwimPlay;
         main.inputreader.OffWMoving += SwimStop;
+        main.inputreader.OnJumpStarted += Startspin;
+        main.inputreader.OnJumpCanceled += Stopspin;
     }
 
     private void OnDisable()
@@ -30,6 +33,8 @@ public class PlayerMain : PlayerSystem
         main.inputreader.WMoving -= Swim;
         main.inputreader.OnWMoving -= SwimPlay;
         main.inputreader.OffWMoving -= SwimStop;
+        main.inputreader.OnJumpStarted -= Startspin;
+        main.inputreader.OnJumpCanceled -= Stopspin;
     }
 
     protected override void Awake()
@@ -103,9 +108,28 @@ public class PlayerMain : PlayerSystem
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
+
+    void Startspin()
+    {
+        startspin = true;
+    }
+
+    void Stopspin()
+    {
+        startspin = false;
+        ps.Stop();
+        main.rb.AddForce(new Vector2((spinamount) * hinput, 1f) * 20, ForceMode2D.Impulse);
+        main.rb.AddTorque(-100f * hinput * (spinamount), ForceMode2D.Force);
+        jumpangle = 0;
+        main.rb.constraints = RigidbodyConstraints2D.None;
+        main.Stop = false;
+        startpin = false;
+        startparticles = true;
+    }
+    
     private void Create_Spin()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (startspin)
         {
             if (startparticles)
             {
@@ -124,17 +148,6 @@ public class PlayerMain : PlayerSystem
                 main.startLifetime = lifetime;
                 Rotate(); 
             }
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            ps.Stop();
-            main.rb.AddForce(new Vector2((spinamount) * hinput, 1f) * 20, ForceMode2D.Impulse);
-            main.rb.AddTorque(-100f * hinput * (spinamount), ForceMode2D.Force);
-            jumpangle = 0;
-            main.rb.constraints = RigidbodyConstraints2D.None;
-            main.Stop = false;
-            startpin = false;
-            startparticles = true;
         }
     }
     private void Rotate()

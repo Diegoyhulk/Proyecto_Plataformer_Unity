@@ -74,9 +74,12 @@ namespace Collisions
         }
         public void PartMove(Rigidbody2D rb)
         {
-            var vector3 = ps.transform.position;
-            vector3.x = rb.position.x;
-            ps.transform.position = vector3;
+            if (isInside)
+            {
+                var vector3 = ps.transform.position;
+                vector3.x = rb.position.x;
+                ps.transform.position = vector3;
+            }
         }
     }
 }
