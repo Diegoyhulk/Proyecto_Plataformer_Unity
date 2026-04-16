@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Intefaces;
 using Managers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class BossEnemy : MonoBehaviour, BossAttackable
@@ -28,6 +29,7 @@ public class BossEnemy : MonoBehaviour, BossAttackable
         [SerializeField] private float totaltime;
         [SerializeField] private float interval;
         private float timer;
+        [SerializeField] private int HP;
 
         private void Awake()
         {
@@ -49,7 +51,7 @@ public class BossEnemy : MonoBehaviour, BossAttackable
                 {
                     timer = 0;
                     damaged = false;
-                }
+                }   
             }
         }
         public IEnumerator BlinkForTime(SpriteRenderer sr, float totalTime, float blinkInterval)
@@ -73,7 +75,9 @@ public class BossEnemy : MonoBehaviour, BossAttackable
                 {
                     damaged = true;
                     StartCoroutine(BlinkForTime(sr, totaltime, interval));
+                    HP--;
                     attacking = false;
+                    if (HP <= 0){SceneManager.LoadScene("Scenes/Win");}
                 }
                 else if (rb.position.x - transform.position.x < 0 && !rotated || rotated && rb.position.x - transform.position.x > 0)
                 {

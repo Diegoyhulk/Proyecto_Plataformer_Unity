@@ -8,10 +8,11 @@ namespace Player
     public class PlayerHealthSystem : PlayerSystem
     {
         public event Action<float, float> LessHp;
-        private int Lives = 3;
+        private int Lives;
         [SerializeField] UIManager UiManager;
         private void OnEnable()
         {
+            Lives = 3;
             UiManager.IsDead += IfIsDead;
         }
 

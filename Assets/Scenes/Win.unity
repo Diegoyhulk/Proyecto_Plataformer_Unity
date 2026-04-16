@@ -535,8 +535,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 781983477}
+        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
         m_MethodName: OnMenuButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -1034,8 +1034,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 781983477}
+        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
         m_MethodName: OnRetryButtonClicked
         m_Mode: 1
         m_Arguments:
