@@ -38,7 +38,6 @@ public class PlayerInteraction : PlayerSystem
         {
             Debug.Log("Checkpoint");
             main.Checkpointtransform = main.rb.position;
-            main.rb.linearVelocity = Vector3.zero;
         }
     }
     
