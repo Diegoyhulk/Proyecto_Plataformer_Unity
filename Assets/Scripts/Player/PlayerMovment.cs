@@ -111,20 +111,26 @@ public class PlayerMain : PlayerSystem
 
     void Startspin()
     {
-        startspin = true;
+        if (main.Stop)
+        {
+            startspin = true;
+        }
     }
 
     void Stopspin()
     {
-        startspin = false;
-        ps.Stop();
-        main.rb.AddForce(new Vector2((spinamount) * hinput, 1f) * 20, ForceMode2D.Impulse);
-        main.rb.AddTorque(-100f * hinput * (spinamount), ForceMode2D.Force);
-        jumpangle = 0;
-        main.rb.constraints = RigidbodyConstraints2D.None;
-        main.Stop = false;
-        startpin = false;
-        startparticles = true;
+        if (main.Stop)
+        {
+            startspin = false;
+            ps.Stop();
+            main.rb.AddForce(new Vector2((spinamount) * hinput, 1f) * 20, ForceMode2D.Impulse);
+            main.rb.AddTorque(-100f * hinput * (spinamount), ForceMode2D.Force);
+            jumpangle = 0;
+            main.rb.constraints = RigidbodyConstraints2D.None;
+            main.Stop = false;
+            startpin = false;
+            startparticles = true;
+        }
     }
     
     private void Create_Spin()

@@ -25,6 +25,10 @@ public class PlayerInteraction : PlayerSystem
         {
             attackable.Attack();
         }
+        if (other.gameObject.TryGetComponent(out BossAttackable boss))
+        {
+            boss.Attack(main.rb);
+        }
         if (other.gameObject.CompareTag("Water"))
         {
             main.rb.constraints = RigidbodyConstraints2D.None;
@@ -56,6 +60,10 @@ public class PlayerInteraction : PlayerSystem
         {
             attackable.AddForce(ref main.Stop, ref main.rb, ref main.currentdamage, ref main.maxhealth);
         }
+        if (other.gameObject.TryGetComponent(out BossAttackable boss))
+        {
+            boss.AddForce(ref main.Stop, ref main.rb, ref main.currentdamage, ref main.maxhealth);
+        }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -71,6 +79,10 @@ public class PlayerInteraction : PlayerSystem
         if(other.gameObject.TryGetComponent(out IAttackable attackable))
         {
             attackable.IsOust();
+        }
+        if(other.gameObject.TryGetComponent(out BossAttackable boss))
+        {
+            boss.IsOust();
         }
         if (other.gameObject.CompareTag("Water"))
         {
