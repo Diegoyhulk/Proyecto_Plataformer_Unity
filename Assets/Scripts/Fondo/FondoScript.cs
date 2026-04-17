@@ -11,7 +11,7 @@ public class FondoScript : MonoBehaviour
     [SerializeField] private AudioClip[] clips;
     private List<SpriteRenderer> Fondos = new List<SpriteRenderer>();
     [SerializeField] private List<Triggers> triggers = new List<Triggers>();
-    private bool[] starts = new bool[4];
+    private bool[] starts = new bool[6];
     private float timer;
     [SerializeField] GameObject player;
     [SerializeField] Transform xInicio1;
@@ -24,7 +24,11 @@ public class FondoScript : MonoBehaviour
     [SerializeField] Transform YCuevaFin;
     [SerializeField] Transform YCuevaIni2;
     [SerializeField] Transform YCuevaFin2;
+    [SerializeField] Transform EndMusic;
+    [SerializeField] Transform StartMusic;
     private bool completo3;
+    bool doonce1 = true;
+    bool doonce2 = true;
     
     private void Awake()
     {
@@ -101,6 +105,22 @@ public class FondoScript : MonoBehaviour
                 Fondos[4].color = c;
                 if(Fondos[4].color.a >= 1f)
                     audioManager.ChangeMusic(clips[1]);
+            }
+        }
+        else if(starts[4])
+        {
+            if(Mathf.Abs(player.transform.position.x - EndMusic.transform.position.x) <= 0.5f && doonce1)
+            {
+                audioManager.EndMusicclip();
+                doonce1 = false;
+            }
+        }
+        else if (starts[5])
+        {
+            if (Mathf.Abs(player.transform.position.x - StartMusic.transform.position.x) <= 0.5f && doonce2)
+            {
+                audioManager.StartMusicclip(0.93f,clips[2]);
+                doonce2 = false;
             }
         }
     }
