@@ -119,7 +119,7 @@ public class PlayerMain : PlayerSystem
 
     void Stopspin()
     {
-        if (main.Stop)
+        if (main.Stop && startpin)
         {
             startspin = false;
             ps.Stop();

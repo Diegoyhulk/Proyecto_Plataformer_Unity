@@ -7,6 +7,8 @@ using UnityEngine.InputSystem.Controls;
 
 public class FondoScript : MonoBehaviour
 {
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private AudioClip[] clips;
     private List<SpriteRenderer> Fondos = new List<SpriteRenderer>();
     [SerializeField] private List<Triggers> triggers = new List<Triggers>();
     private bool[] starts = new bool[4];
@@ -55,7 +57,6 @@ public class FondoScript : MonoBehaviour
     {
         starts[id] = false;
     }
-
     private void Update()
     {
         if (starts[0])
@@ -86,6 +87,8 @@ public class FondoScript : MonoBehaviour
                 Color c = Fondos[3].color;
                 c.a = progreso;
                 Fondos[3].color = c;
+                if(Fondos[3].color.a >= 1f)
+                    audioManager.ChangeMusic(clips[0]);
             }
         }
         else if (starts[3])
@@ -96,6 +99,8 @@ public class FondoScript : MonoBehaviour
                 Color c = Fondos[4].color;
                 c.a = progreso;
                 Fondos[4].color = c;
+                if(Fondos[4].color.a >= 1f)
+                    audioManager.ChangeMusic(clips[1]);
             }
         }
     }
